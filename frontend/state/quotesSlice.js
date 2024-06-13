@@ -29,52 +29,52 @@ const initialState = {
   ],
 }
 
-  export const quotesSlice = createSlice({
-    name: 'quotes' ,
-    initialState,
-    reducers: {
-      toggleVisibility(state) {
-        state.displayAllQuotes = !state.displayAllQuotes
-      },
-      deleteQuote(state, action) {
-        state.quotes = state.quotes
+export const quotesSlice = createSlice({
+  name: 'quotes',
+  initialState,
+  reducers: {
+    toggleVisibility(state) {
+      state.displayAllQuotes = !state.displayAllQuotes
+    },
+    deleteQuote(state, action) {
+      state.quotes = state.quotes
         .filter(qt => qt.id !== action.payload)
-      },
-      editQuoteAuthenticity(state, action) {
-        const quoteToEdit = state.quotes.find(qt => qt.id === action.payload)
-        quoteToEdit.apocryphal = !quoteToEdit.apocryphal
-      },
-      setHighlightedQuote(state, action) {
-        if (state.highlightedQuote === action.payload) {
-          state.highlightedQuote = null
-        } else {
-          state.highlightedQuote = action.payload
-        }
-      },
-      createQuote: {
-        prepare({ authorName, quoteText }) {
-          return {
-            payload: {
-              authorName,
-              quoteText,
-              apocryphal: false,
-              id: getNextId()
-            }
+    },
+    editQuoteAuthenticity(state, action) {
+      const quoteToEdit = state.quotes.find(qt => qt.id === action.payload)
+      quoteToEdit.apocryphal = !quoteToEdit.apocryphal
+    },
+    setHighlightedQuote(state, action) {
+      if (state.highlightedQuote === action.payload) {
+        state.highlightedQuote = null
+      } else {
+        state.highlightedQuote = action.payload
+      }
+    },
+    createQuote: {
+      prepare({ authorName, quoteText }) {
+        return {
+          payload: {
+            authorName,
+            quoteText,
+            apocryphal: false,
+            id: getNextId()
           }
-        },
-        reducer(state, action) {
-          state.quotes.push(action.payload)
         }
+      },
+      reducer(state, action) {
+        state.quotes.push(action.payload)
       }
     }
-  })
+  }
+})
 
-  export const {
-    createQuote,
-    deleteQuote,
-    editQuoteAuthenticity,
-    setHighlightedQuote,
-    toggleVisibility,
-  } = quotesSlice.actions
+export const {
+  createQuote,
+  deleteQuote,
+  editQuoteAuthenticity,
+  setHighlightedQuote,
+  toggleVisibility,
+} = quotesSlice.actions
 
-  export default quotesSlice.reducer
+export default quotesSlice.reducer
